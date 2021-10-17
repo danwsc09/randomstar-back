@@ -1,18 +1,8 @@
-import express from "express";
-import cors from "cors";
-import helmet from "helmet";
+import { app } from "./app";
+import dotenv from "dotenv";
 
-import { mountRoutes } from "./routes";
-
-const app = express();
+dotenv.config();
 const PORT = process.env.PORT || 9876;
-
-// App configuration
-app.use(helmet());
-app.use(cors());
-app.use(express.json());
-
-mountRoutes(app);
 
 // Activate server
 app.listen(PORT, () => {
