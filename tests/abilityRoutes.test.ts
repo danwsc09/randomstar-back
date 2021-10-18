@@ -27,4 +27,11 @@ describe("Test abilities endpoints", () => {
     expect(response.body.length).toBeGreaterThan(150);
     expect(response.body[0]).toHaveProperty("abilityname");
   });
+
+  test("GET /api/abilities/:id should return one ability", async () => {
+    const response = await agent.get("/api/abilities");
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty("abilityname");
+  });
 });
