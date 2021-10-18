@@ -12,6 +12,8 @@ const pool = new Pool({
 
 export const query = (
   text: string,
-  params: any[],
-  callback: (err: Error, result: QueryResult<any>) => void
-) => pool.query(text, params, callback);
+  params: any[]
+  // callback: (err: Error, result: QueryResult<any>) => void
+) => pool.query(text, params);
+
+export const end = () => pool.end();
