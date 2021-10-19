@@ -1,0 +1,30 @@
+GET http://localhost:9876/api/abilities/1
+
+###
+
+GET http://localhost:9876/api/abilities
+
+###
+
+POST http://localhost:9876/api/abilities
+Content-Type: application/json
+
+{
+  "abilityname": "새로운 능력1",
+  "explanation": "테스트1"
+}
+
+###
+
+PUT http://localhost:9876/api/abilities/160
+Content-Type: application/json
+
+{
+"id": 160,
+  "abilityname": "PUT으로 능력 업데이트",
+  "explanation": "update된 능력",
+  "removed": false
+}
+
+###
+DELETE http://localhost:9876/api/abilities/160

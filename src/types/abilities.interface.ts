@@ -1,6 +1,11 @@
-export interface ability {
-  abilityName: string;
+export interface BaseAbility {
+  abilityname: string;
   explanation: string;
 }
 
-export type abilities = ability[];
+export interface Ability extends BaseAbility {
+  id: number;
+  removed: boolean;
+}
+
+export type Abilities = Ability[];
