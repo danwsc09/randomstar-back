@@ -28,10 +28,16 @@ describe("Test abilities endpoints", () => {
     expect(response.body[0]).toHaveProperty("abilityname");
   });
 
-  test("GET /api/abilities/:id should return one ability", async () => {
-    const response = await agent.get("/api/abilities");
+  test("GET /api/abilities/:id should return one ability if ID is valid", async () => {
+    const response = await agent.get("/api/abilities/1");
 
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty("abilityname");
+  });
+
+  test("GET /api/abilities/:id should return 404 error if ID is invalid", async () => {
+    const response = await agent.get("/api/abilities/9999999");
+
+    expect(response.statusCode).toBe(404);
   });
 });

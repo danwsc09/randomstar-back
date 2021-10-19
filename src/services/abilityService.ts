@@ -8,10 +8,12 @@ export const findAll = async (): Promise<Abilities> => {
   return rows;
 };
 
-export const findById = async (id: number): Promise<Ability> => {
+export const findById = async (id: number): Promise<Ability | null> => {
   const sqlQuery = "SELECT * FROM abilities WHERE id = $1";
   const { rows } = await query(sqlQuery, [id]);
-  return rows[0];
+
+  if (rows.length === 0) return null;
+  else return rows[0];
 };
 
 export const create = async ({
@@ -30,12 +32,10 @@ export const remove = async (id: number): Promise<null | void> => {
   return null;
 };
 
-export const update = async ({
-  id,
-  abilityname,
-  explanation,
-  removed,
-}: Ability): Promise<Ability> => {
+export const update = async (
+  abilityId: number,
+  { id, abilityname, explanation, removed }: Ability
+): Promise<Ability> => {
   const sqlQuery =
     "UPDATE abilities SET abilityname = $1, explanation = $2, removed = $3 WHERE id = $4";
   const { rows } = await query(sqlQuery, [

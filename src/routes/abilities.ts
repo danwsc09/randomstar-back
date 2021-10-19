@@ -1,12 +1,18 @@
 import { Request, Response, NextFunction, Router } from "express";
-import { query } from "../db";
+import * as AbilityService from "../services/abilityService";
 
 const abilitiesRouter = Router();
 
 abilitiesRouter.get("/:id", async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
   try {
-    const sqlQuery = "SELECT * FROM abilities WHERE id = $1";
-    const db = await query(sqlQuery, []);
+    const ability = await AbilityService.findById(id);
+
+    if (ability === null) {
+      res.status(404).send("ability not found");
+    } else {
+      res.json(ability);
+    }
   } catch (e) {
     if (e instanceof Error) {
       res.status(500).send("error");
@@ -16,9 +22,8 @@ abilitiesRouter.get("/:id", async (req: Request, res: Response) => {
 
 abilitiesRouter.get("/", async (req: Request, res: Response) => {
   try {
-    const sqlQuery = "SELECT * FROM abilities;";
-    const { rows } = await query(sqlQuery, []);
-    res.json(rows);
+    const abilities = await AbilityService.findAll();
+    res.json(abilities);
   } catch (e) {
     if (e instanceof Error) {
       res.status(500).send("error");
@@ -26,10 +31,53 @@ abilitiesRouter.get("/", async (req: Request, res: Response) => {
   }
 });
 
-abilitiesRouter.post("", async (req: Request, res: Response) => {});
+abilitiesRouter.post("/", async (req: Request, res: Response) => {
+  try {
+    const baseAbility = req.body;
+    const newAbility = await AbilityService.create(baseAbility);
 
-abilitiesRouter.put("/:id", async (req: Request, res: Response) => {});
+    res.status(201).json(newAbility);
+  } catch (e) {
+    if (e instanceof Error) {
+      res.status(500).send("error");
+    }
+  }
+});
 
-abilitiesRouter.delete("/:id", async (req: Request, res: Response) => {});
+abilitiesRouter.put("/:id", async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  const abilityUpdate = req.body;
+
+  try {
+    const existingAbility = await AbilityService.findById(id);
+
+    if (existingAbility === null) {
+      const newItem = await AbilityService.create(abilityUpdate);
+
+      res.status(201).json(newItem);
+    }
+
+    const updatedAbility = await AbilityService.update(id, abilityUpdate);
+    res.status(200).json(updatedAbility);
+  } catch (e) {
+    if (e instanceof Error) {
+      res.status(500).send("error");
+    }
+  }
+});
+
+abilitiesRouter.delete("/:id", async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+
+  try {
+    await AbilityService.remove(id);
+
+    res.status(204);
+  } catch (e) {
+    if (e instanceof Error) {
+      res.status(500).send("error");
+    }
+  }
+});
 
 export { abilitiesRouter };
