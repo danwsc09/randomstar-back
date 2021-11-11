@@ -1,5 +1,7 @@
 import { query } from "../db";
-import { Player } from "../types/player.interface";
+import { Player, BasePlayer } from "../types/player.interface";
+
+const INITIAL_RATING = 1200;
 
 export const findAll = async (): Promise<Player[]> => {
   const sqlQuery = "SELECT * FROM players;";
@@ -22,17 +24,14 @@ export const create = async ({
   korname,
   engname,
   afreecaid,
-  rating,
-  lastplayed,
-}: Player): Promise<Player> => {
+}: BasePlayer): Promise<Player> => {
   const sqlQuery =
-    "INSERT INTO players(korname, engname, afreecaid, rating, lastplayed) VALUES($1, $2, $3, $4, $5)";
+    "INSERT INTO players(korname, engname, afreecaid, rating) VALUES($1, $2, $3, $4)";
   const { rows } = await query(sqlQuery, [
     korname,
     engname,
     afreecaid,
-    rating,
-    lastplayed,
+    INITIAL_RATING,
   ]);
   return rows[0];
 };

@@ -32,20 +32,20 @@ playersRouter.get("/", async (req: Request, res: Response) => {
     }
   }
 });
-/*
+
 playersRouter.post("/", async (req: Request, res: Response) => {
   try {
-    const baseAbility = req.body;
-    const newAbility = await AbilityService.create(baseAbility);
+    const player = req.body;
+    const newPlayer = await PlayersService.create(player);
 
-    res.status(201).json(newAbility);
+    res.status(201).json(newPlayer);
   } catch (e) {
     if (e instanceof Error) {
       res.status(500).send("error");
     }
   }
 });
-
+/*
 playersRouter.put("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   const abilityUpdate = req.body;
