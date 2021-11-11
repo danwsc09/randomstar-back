@@ -1,26 +1,28 @@
 import { Request, Response, NextFunction, Router } from "express";
-import * as AbilityService from "../services/abilityService";
+import * as PlayersService from "../services/playersService";
 
-const abilitiesRouter = Router();
+const playersRouter = Router();
 
-abilitiesRouter.get("/:id", async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
+playersRouter.get("/:engname", async (req: Request, res: Response) => {
+  const engname = req.params.engname;
+  console.log(engname);
   try {
-    const ability = await AbilityService.findById(id);
+    const player = await PlayersService.findByEngname(engname);
 
-    if (ability === null) {
-      res.status(404).send("ability not found");
+    // if not found, send status 400
+    if (player === null) {
+      res.sendStatus(400);
     } else {
-      res.json(ability);
+      res.json(player);
     }
-  } catch (e) {
-    if (e instanceof Error) {
+  } catch (err) {
+    if (err instanceof Error) {
       res.status(500).send("error");
     }
   }
 });
-
-abilitiesRouter.get("/", async (req: Request, res: Response) => {
+/*
+playersRouter.get("/", async (req: Request, res: Response) => {
   try {
     const abilities = await AbilityService.findAll();
     res.json(abilities);
@@ -31,7 +33,7 @@ abilitiesRouter.get("/", async (req: Request, res: Response) => {
   }
 });
 
-abilitiesRouter.post("/", async (req: Request, res: Response) => {
+playersRouter.post("/", async (req: Request, res: Response) => {
   try {
     const baseAbility = req.body;
     const newAbility = await AbilityService.create(baseAbility);
@@ -44,7 +46,7 @@ abilitiesRouter.post("/", async (req: Request, res: Response) => {
   }
 });
 
-abilitiesRouter.put("/:id", async (req: Request, res: Response) => {
+playersRouter.put("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   const abilityUpdate = req.body;
 
@@ -66,7 +68,7 @@ abilitiesRouter.put("/:id", async (req: Request, res: Response) => {
   }
 });
 
-abilitiesRouter.delete("/:id", async (req: Request, res: Response) => {
+playersRouter.delete("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
 
   try {
@@ -79,5 +81,5 @@ abilitiesRouter.delete("/:id", async (req: Request, res: Response) => {
     }
   }
 });
-
-export default abilitiesRouter;
+*/
+export default playersRouter;

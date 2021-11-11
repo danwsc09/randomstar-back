@@ -6,7 +6,9 @@ describe("Test MatchService's find() methods that interact with DB", () => {
     endPool();
   });
 
-  test("findAll should return all matches", async () => {});
+  test("findAll should return all matches", async () => {
+    expect(5).toBe(1);
+  });
 
   test("findById should return one match if id is valid", async () => {});
 
