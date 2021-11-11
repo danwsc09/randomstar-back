@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction, Router } from "express";
 import * as AbilityService from "../services/abilityService";
 
-const abilitiesRouter = Router();
+const matchesRouter = Router();
 
-abilitiesRouter.get("/:id", async (req: Request, res: Response) => {
+matchesRouter.get("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   try {
     const ability = await AbilityService.findById(id);
@@ -20,7 +20,7 @@ abilitiesRouter.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-abilitiesRouter.get("/", async (req: Request, res: Response) => {
+matchesRouter.get("/", async (req: Request, res: Response) => {
   try {
     const abilities = await AbilityService.findAll();
     res.json(abilities);
@@ -31,7 +31,7 @@ abilitiesRouter.get("/", async (req: Request, res: Response) => {
   }
 });
 
-abilitiesRouter.post("/", async (req: Request, res: Response) => {
+matchesRouter.post("/", async (req: Request, res: Response) => {
   try {
     const baseAbility = req.body;
     const newAbility = await AbilityService.create(baseAbility);
@@ -44,7 +44,7 @@ abilitiesRouter.post("/", async (req: Request, res: Response) => {
   }
 });
 
-abilitiesRouter.put("/:id", async (req: Request, res: Response) => {
+matchesRouter.put("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   const abilityUpdate = req.body;
 
@@ -66,7 +66,7 @@ abilitiesRouter.put("/:id", async (req: Request, res: Response) => {
   }
 });
 
-abilitiesRouter.delete("/:id", async (req: Request, res: Response) => {
+matchesRouter.delete("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
 
   try {
@@ -80,4 +80,4 @@ abilitiesRouter.delete("/:id", async (req: Request, res: Response) => {
   }
 });
 
-export default abilitiesRouter;
+export { matchesRouter as abilitiesRouter };
