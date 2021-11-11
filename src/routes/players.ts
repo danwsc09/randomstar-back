@@ -21,10 +21,10 @@ playersRouter.get("/:engname", async (req: Request, res: Response) => {
     }
   }
 });
-/*
+
 playersRouter.get("/", async (req: Request, res: Response) => {
   try {
-    const abilities = await AbilityService.findAll();
+    const abilities = await PlayersService.findAll();
     res.json(abilities);
   } catch (e) {
     if (e instanceof Error) {
@@ -32,7 +32,7 @@ playersRouter.get("/", async (req: Request, res: Response) => {
     }
   }
 });
-
+/*
 playersRouter.post("/", async (req: Request, res: Response) => {
   try {
     const baseAbility = req.body;
