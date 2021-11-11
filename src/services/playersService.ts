@@ -13,7 +13,7 @@ export const findAll = async (): Promise<Player[]> => {
 export const findByEngname = async (
   engname: string
 ): Promise<Player | null> => {
-  const sqlQuery = "SELECT * FROM abilities WHERE id = $1";
+  const sqlQuery = "SELECT * FROM players WHERE engname = $1";
   const { rows } = await query(sqlQuery, [engname]);
 
   if (rows.length === 0) return null;
@@ -37,22 +37,17 @@ export const create = async ({
 };
 
 export const remove = async (engname: string): Promise<null | void> => {
-  const sqlQuery = "DELETE FROM abilities WHERE engname = $1";
+  const sqlQuery = "DELETE FROM players WHERE engname = $1";
   await query(sqlQuery, [engname]);
   return null;
 };
 
 export const update = async (
   theEngname: string,
-  { korname, afreecaid, rating }: Player
+  { korname, afreecaid }: BasePlayer
 ): Promise<Player> => {
   const sqlQuery =
-    "UPDATE players SET korname = $1, afreecaid = $2, rating = $3 WHERE engname = $4";
-  const { rows } = await query(sqlQuery, [
-    korname,
-    afreecaid,
-    rating,
-    theEngname,
-  ]);
+    "UPDATE players SET korname = $1, afreecaid = $2 WHERE engname = $3";
+  const { rows } = await query(sqlQuery, [korname, afreecaid, theEngname]);
   return rows[0];
 };

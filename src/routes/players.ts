@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction, Router } from "express";
 import * as PlayersService from "../services/playersService";
+import { BasePlayer } from "../types/player.interface";
 
 const playersRouter = Router();
 
@@ -45,29 +46,27 @@ playersRouter.post("/", async (req: Request, res: Response) => {
     }
   }
 });
-/*
-playersRouter.put("/:id", async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
-  const abilityUpdate = req.body;
+
+playersRouter.put("/:engname", async (req: Request, res: Response) => {
+  const engname = req.params.engname;
+  const playerUpdate: BasePlayer = req.body;
 
   try {
-    const existingAbility = await AbilityService.findById(id);
+    const existingPlayer = await PlayersService.findByEngname(engname);
 
-    if (existingAbility === null) {
-      const newItem = await AbilityService.create(abilityUpdate);
-
-      res.status(201).json(newItem);
+    if (existingPlayer === null) {
+      const newPlayer = await PlayersService.create(playerUpdate);
+      res.status(201).json(newPlayer);
     }
-
-    const updatedAbility = await AbilityService.update(id, abilityUpdate);
-    res.status(200).json(updatedAbility);
+    const updatedPlayer = await PlayersService.update(engname, playerUpdate);
+    res.status(200).json(updatedPlayer);
   } catch (e) {
     if (e instanceof Error) {
       res.status(500).send("error");
     }
   }
 });
-
+/*
 playersRouter.delete("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
 
