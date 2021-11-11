@@ -21,7 +21,7 @@ matchesRouter.get("/id/:id", async (req: Request, res: Response) => {
 });
 
 matchesRouter.get("/:engname", async (req: Request, res: Response) => {
-  const engname = req.params.id;
+  const engname = req.params.engname;
   try {
     const match = await MatchService.findAllByPlayer(engname);
 
@@ -51,7 +51,6 @@ matchesRouter.get("/", async (req: Request, res: Response) => {
 matchesRouter.post("/", async (req: Request, res: Response) => {
   try {
     const baseMatch = req.body;
-    console.log("POST /api/matches:", baseMatch);
     const newMatch = await MatchService.create(baseMatch);
 
     res.status(201).json(newMatch);

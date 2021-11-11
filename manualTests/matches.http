@@ -1,5 +1,7 @@
 GET http://localhost:9876/api/matches
 
+###
+GET http://localhost:9876/api/matches/mini
 
 ###
 POST http://localhost:9876/api/matches
@@ -28,15 +30,29 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:9876/api/abilities/160
+PUT http://localhost:9876/api/matches/3
 Content-Type: application/json
 
 {
-"id": 160,
-  "abilityname": "PUT으로 능력 업데이트",
-  "explanation": "update된 능력",
-  "removed": false
+  "memo":"test55",
+  "summary":"test555",
+  "winner1Name":"mini",
+  "winner1Location":"3",
+  "winner1Race":"Z",
+  "winner1AbilityId":1,
+  "winner2Name":"effort",
+  "winner2Location":"6",
+  "winner2Race":"P",
+  "winner2AbilityId":2,
+  "loser1Name":"organ",
+  "loser1Location":"12",
+  "loser1Race":"T",
+  "loser1AbilityId":4,
+  "loser2Name":"ggaemo",
+  "loser2Location":"9",
+  "loser2Race":"Z",
+  "loser2AbilityId":5
 }
 
 ###
-DELETE http://localhost:9876/api/abilities/160
+DELETE http://localhost:9876/api/matches/3
