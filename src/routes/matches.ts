@@ -1,17 +1,34 @@
 import { Request, Response, NextFunction, Router } from "express";
-import * as AbilityService from "../services/abilityService";
+import * as MatchService from "../services/matchService";
 
 const matchesRouter = Router();
 
-matchesRouter.get("/:id", async (req: Request, res: Response) => {
+matchesRouter.get("/id/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   try {
-    const ability = await AbilityService.findById(id);
+    const match = await MatchService.findById(id);
 
-    if (ability === null) {
-      res.status(404).send("ability not found");
+    if (match === null) {
+      res.status(404).send("match not found");
     } else {
-      res.json(ability);
+      res.json(match);
+    }
+  } catch (e) {
+    if (e instanceof Error) {
+      res.status(500).send("error");
+    }
+  }
+});
+
+matchesRouter.get("/:engname", async (req: Request, res: Response) => {
+  const engname = req.params.id;
+  try {
+    const match = await MatchService.findAllByPlayer(engname);
+
+    if (match === null) {
+      res.status(404).send("match not found");
+    } else {
+      res.json(match);
     }
   } catch (e) {
     if (e instanceof Error) {
@@ -22,8 +39,8 @@ matchesRouter.get("/:id", async (req: Request, res: Response) => {
 
 matchesRouter.get("/", async (req: Request, res: Response) => {
   try {
-    const abilities = await AbilityService.findAll();
-    res.json(abilities);
+    const matches = await MatchService.findAll();
+    res.json(matches);
   } catch (e) {
     if (e instanceof Error) {
       res.status(500).send("error");
@@ -33,10 +50,11 @@ matchesRouter.get("/", async (req: Request, res: Response) => {
 
 matchesRouter.post("/", async (req: Request, res: Response) => {
   try {
-    const baseAbility = req.body;
-    const newAbility = await AbilityService.create(baseAbility);
+    const baseMatch = req.body;
+    console.log("POST /api/matches:", baseMatch);
+    const newMatch = await MatchService.create(baseMatch);
 
-    res.status(201).json(newAbility);
+    res.status(201).json(newMatch);
   } catch (e) {
     if (e instanceof Error) {
       res.status(500).send("error");
@@ -46,19 +64,19 @@ matchesRouter.post("/", async (req: Request, res: Response) => {
 
 matchesRouter.put("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
-  const abilityUpdate = req.body;
+  const matchUpdate = req.body;
 
   try {
-    const existingAbility = await AbilityService.findById(id);
+    const existingMatch = await MatchService.findById(id);
 
-    if (existingAbility === null) {
-      const newItem = await AbilityService.create(abilityUpdate);
+    if (existingMatch === null) {
+      const newItem = await MatchService.create(matchUpdate);
 
       res.status(201).json(newItem);
     }
 
-    const updatedAbility = await AbilityService.update(id, abilityUpdate);
-    res.status(200).json(updatedAbility);
+    const updatedMatch = await MatchService.update(id, matchUpdate);
+    res.status(200).json(updatedMatch);
   } catch (e) {
     if (e instanceof Error) {
       res.status(500).send("error");
@@ -70,9 +88,9 @@ matchesRouter.delete("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
 
   try {
-    await AbilityService.remove(id);
+    await MatchService.remove(id);
 
-    res.status(204);
+    res.sendStatus(204);
   } catch (e) {
     if (e instanceof Error) {
       res.status(500).send("error");
@@ -80,4 +98,4 @@ matchesRouter.delete("/:id", async (req: Request, res: Response) => {
   }
 });
 
-export { matchesRouter as abilitiesRouter };
+export default matchesRouter;

@@ -34,7 +34,7 @@ export const remove = async (id: number): Promise<null | void> => {
 
 export const update = async (
   abilityId: number,
-  { id, abilityname, explanation, removed }: Ability
+  { abilityname, explanation, removed }: Ability
 ): Promise<Ability> => {
   const sqlQuery =
     "UPDATE abilities SET abilityname = $1, explanation = $2, removed = $3 WHERE id = $4";
@@ -42,7 +42,7 @@ export const update = async (
     abilityname,
     explanation,
     removed,
-    id,
+    abilityId,
   ]);
   return rows[0];
 };

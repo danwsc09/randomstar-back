@@ -19,6 +19,14 @@ export const findAllByPlayer = async (
   else return rows;
 };
 
+export const findById = async (id: number): Promise<Match | null> => {
+  const sqlQuery = "SELECT * FROM matches2v2 WHERE id = $1";
+  const { rows } = await query(sqlQuery, [id]);
+
+  if (rows.length === 0) return null;
+  return rows[0];
+};
+
 export const create = async ({
   memo,
   summary,
