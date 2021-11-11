@@ -66,19 +66,19 @@ playersRouter.put("/:engname", async (req: Request, res: Response) => {
     }
   }
 });
-/*
-playersRouter.delete("/:id", async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
+
+playersRouter.delete("/:engname", async (req: Request, res: Response) => {
+  const engname = req.params.engname;
 
   try {
-    await AbilityService.remove(id);
+    await PlayersService.remove(engname);
 
-    res.status(204);
+    res.sendStatus(204);
   } catch (e) {
     if (e instanceof Error) {
       res.status(500).send("error");
     }
   }
 });
-*/
+
 export default playersRouter;

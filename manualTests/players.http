@@ -1,0 +1,26 @@
+GET http://localhost:9876/api/players
+
+###
+POST http://localhost:9876/api/players/
+Content-Type: application/json
+
+{
+  "engname": "minieffortorgan",
+  "korname": "홍길도쿠",
+  "afreecaid": "secretissugar"
+}
+
+###
+GET http://localhost:9876/api/players/minieffortorgan
+
+###
+PUT http://localhost:9876/api/players/minieffortorgan
+Content-Type: application/json
+
+{
+  "korname": "임요환의 할아버지",
+  "afreecaid": "pewpew123"
+}
+
+###
+DELETE http://localhost:9876/api/players/minieffortorgan
